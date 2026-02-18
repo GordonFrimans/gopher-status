@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package monitor.v1; // Хороший тон добавить пакет
+
+option go_package = "./pkg/api/monitor/v1;monitor";
+
+import "google/api/annotations.proto";
+
+service MonitorService {
+
+    // Добавить монитор
+    rpc CreateMonitor(CreateMonitorRequest) returns (CreateMonitorResponse) {
+        option (google.api.http) = {
+            post: "/v1/monitors"
+            body: "*"
+        };
+    }
+
+    // Получить список (лучше назвать List, это стандарт)
+    rpc ListMonitors(ListMonitorsRequest) returns (ListMonitorsResponse) {
+        option (google.api.http) = {
+            get: "/v1/monitors"
+        };
+    }
+
+    // Удалить
+    rpc DeleteMonitor(DeleteMonitorRequest) returns (DeleteMonitorResponse) {
+        option (google.api.http) = {
+            delete: "/v1/monitors/{id}"
+        };
+    }
+}
+
+//==================================================
+//=====       Data Structures                  =====
+//==================================================
+
+message Monitor {
+    int64 id = 1;
+    string url = 2;
+    string name = 3;
+    int32 interval = 4;
+    string status = 5;      // "UP", "DOWN", "PENDING"
+    string last_check = 6;  // Timestamp (string для простоты JSON)
+}
+
+//==================================================
+//======      Request / Response               =====
+//==================================================
+
+message CreateMonitorRequest {
+    string url = 1;
+    string name = 2;
+    int32 interval = 3;
+}
+
+message CreateMonitorResponse {
+    int64 id = 1; // Возвращаем ID созданного
+}
+
+message ListMonitorsRequest {
+    // Тут пока пусто, но можно добавить пагинацию в будущем
+}
+
+message ListMonitorsResponse {
+    repeated Monitor monitors = 1;
+}
+
+message DeleteMonitorRequest {
+    int64 id = 1;
+}
+
+message DeleteMonitorResponse {
+}
