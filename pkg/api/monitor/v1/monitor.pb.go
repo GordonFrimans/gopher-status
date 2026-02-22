@@ -7,13 +7,12 @@
 package monitor
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -371,6 +370,358 @@ func (*DeleteMonitorResponse) Descriptor() ([]byte, []int) {
 	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{6}
 }
 
+type LoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginRequest) Reset() {
+	*x = LoginRequest{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginRequest) ProtoMessage() {}
+
+func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
+func (*LoginRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *LoginRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type LoginResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jwt           string                 `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginResponse) Reset() {
+	*x = LoginResponse{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginResponse) ProtoMessage() {}
+
+func (x *LoginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
+func (*LoginResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *LoginResponse) GetJwt() string {
+	if x != nil {
+		return x.Jwt
+	}
+	return ""
+}
+
+type CreateUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CreateUserRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type CreateUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateUserResponse) Reset() {
+	*x = CreateUserResponse{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserResponse) ProtoMessage() {}
+
+func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
+func (*CreateUserResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{10}
+}
+
+type GetUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetUserRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type GetUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserResponse) Reset() {
+	*x = GetUserResponse{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserResponse) ProtoMessage() {}
+
+func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
+func (*GetUserResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetUserResponse) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type DeleteUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserRequest) Reset() {
+	*x = DeleteUserRequest{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRequest) ProtoMessage() {}
+
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DeleteUserRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type DeleteUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserResponse) Reset() {
+	*x = DeleteUserResponse{}
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserResponse) ProtoMessage() {}
+
+func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_monitor_v1_monitor_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
+func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_monitor_v1_monitor_proto_rawDescGZIP(), []int{14}
+}
+
 var File_api_proto_monitor_v1_monitor_proto protoreflect.FileDescriptor
 
 const file_api_proto_monitor_v1_monitor_proto_rawDesc = "" +
@@ -396,11 +747,34 @@ const file_api_proto_monitor_v1_monitor_proto_rawDesc = "" +
 	"\bmonitors\x18\x01 \x03(\v2\x13.monitor.v1.MonitorR\bmonitors\"&\n" +
 	"\x14DeleteMonitorRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x17\n" +
-	"\x15DeleteMonitorResponse2\xd9\x02\n" +
+	"\x15DeleteMonitorResponse\"@\n" +
+	"\fLoginRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"!\n" +
+	"\rLoginResponse\x12\x10\n" +
+	"\x03jwt\x18\x01 \x01(\tR\x03jwt\"E\n" +
+	"\x11CreateUserRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x14\n" +
+	"\x12CreateUserResponse\"&\n" +
+	"\x0eGetUserRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\"'\n" +
+	"\x0fGetUserResponse\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\")\n" +
+	"\x11DeleteUserRequest\x12\x14\n" +
+	"\x05login\x18\x01 \x01(\tR\x05login\"\x14\n" +
+	"\x12DeleteUserResponse2\xd9\x02\n" +
 	"\x0eMonitorService\x12m\n" +
 	"\rCreateMonitor\x12 .monitor.v1.CreateMonitorRequest\x1a!.monitor.v1.CreateMonitorResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/monitors\x12g\n" +
 	"\fListMonitors\x12\x1f.monitor.v1.ListMonitorsRequest\x1a .monitor.v1.ListMonitorsResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v1/monitors\x12o\n" +
-	"\rDeleteMonitor\x12 .monitor.v1.DeleteMonitorRequest\x1a!.monitor.v1.DeleteMonitorResponse\"\x19\x82\xd3\xe4\x93\x02\x13*\x11/v1/monitors/{id}B\x1eZ\x1c./pkg/api/monitor/v1;monitorb\x06proto3"
+	"\rDeleteMonitor\x12 .monitor.v1.DeleteMonitorRequest\x1a!.monitor.v1.DeleteMonitorResponse\"\x19\x82\xd3\xe4\x93\x02\x13*\x11/v1/monitors/{id}2\x9f\x03\n" +
+	"\vAuthService\x12W\n" +
+	"\x05Login\x12\x18.monitor.v1.LoginRequest\x1a\x19.monitor.v1.LoginResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12f\n" +
+	"\n" +
+	"CreateUser\x12\x1d.monitor.v1.CreateUserRequest\x1a\x1e.monitor.v1.CreateUserResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/users\x12b\n" +
+	"\aGetUser\x12\x1a.monitor.v1.GetUserRequest\x1a\x1b.monitor.v1.GetUserResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/v1/auth/users/{login}\x12k\n" +
+	"\n" +
+	"DeleteUser\x12\x1d.monitor.v1.DeleteUserRequest\x1a\x1e.monitor.v1.DeleteUserResponse\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/v1/auth/users/{login}B\x1eZ\x1c./pkg/api/monitor/v1;monitorb\x06proto3"
 
 var (
 	file_api_proto_monitor_v1_monitor_proto_rawDescOnce sync.Once
@@ -414,31 +788,45 @@ func file_api_proto_monitor_v1_monitor_proto_rawDescGZIP() []byte {
 	return file_api_proto_monitor_v1_monitor_proto_rawDescData
 }
 
-var (
-	file_api_proto_monitor_v1_monitor_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-	file_api_proto_monitor_v1_monitor_proto_goTypes  = []any{
-		(*Monitor)(nil),               // 0: monitor.v1.Monitor
-		(*CreateMonitorRequest)(nil),  // 1: monitor.v1.CreateMonitorRequest
-		(*CreateMonitorResponse)(nil), // 2: monitor.v1.CreateMonitorResponse
-		(*ListMonitorsRequest)(nil),   // 3: monitor.v1.ListMonitorsRequest
-		(*ListMonitorsResponse)(nil),  // 4: monitor.v1.ListMonitorsResponse
-		(*DeleteMonitorRequest)(nil),  // 5: monitor.v1.DeleteMonitorRequest
-		(*DeleteMonitorResponse)(nil), // 6: monitor.v1.DeleteMonitorResponse
-	}
-)
+var file_api_proto_monitor_v1_monitor_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_api_proto_monitor_v1_monitor_proto_goTypes = []any{
+	(*Monitor)(nil),               // 0: monitor.v1.Monitor
+	(*CreateMonitorRequest)(nil),  // 1: monitor.v1.CreateMonitorRequest
+	(*CreateMonitorResponse)(nil), // 2: monitor.v1.CreateMonitorResponse
+	(*ListMonitorsRequest)(nil),   // 3: monitor.v1.ListMonitorsRequest
+	(*ListMonitorsResponse)(nil),  // 4: monitor.v1.ListMonitorsResponse
+	(*DeleteMonitorRequest)(nil),  // 5: monitor.v1.DeleteMonitorRequest
+	(*DeleteMonitorResponse)(nil), // 6: monitor.v1.DeleteMonitorResponse
+	(*LoginRequest)(nil),          // 7: monitor.v1.LoginRequest
+	(*LoginResponse)(nil),         // 8: monitor.v1.LoginResponse
+	(*CreateUserRequest)(nil),     // 9: monitor.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),    // 10: monitor.v1.CreateUserResponse
+	(*GetUserRequest)(nil),        // 11: monitor.v1.GetUserRequest
+	(*GetUserResponse)(nil),       // 12: monitor.v1.GetUserResponse
+	(*DeleteUserRequest)(nil),     // 13: monitor.v1.DeleteUserRequest
+	(*DeleteUserResponse)(nil),    // 14: monitor.v1.DeleteUserResponse
+}
 var file_api_proto_monitor_v1_monitor_proto_depIdxs = []int32{
-	0, // 0: monitor.v1.ListMonitorsResponse.monitors:type_name -> monitor.v1.Monitor
-	1, // 1: monitor.v1.MonitorService.CreateMonitor:input_type -> monitor.v1.CreateMonitorRequest
-	3, // 2: monitor.v1.MonitorService.ListMonitors:input_type -> monitor.v1.ListMonitorsRequest
-	5, // 3: monitor.v1.MonitorService.DeleteMonitor:input_type -> monitor.v1.DeleteMonitorRequest
-	2, // 4: monitor.v1.MonitorService.CreateMonitor:output_type -> monitor.v1.CreateMonitorResponse
-	4, // 5: monitor.v1.MonitorService.ListMonitors:output_type -> monitor.v1.ListMonitorsResponse
-	6, // 6: monitor.v1.MonitorService.DeleteMonitor:output_type -> monitor.v1.DeleteMonitorResponse
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0,  // 0: monitor.v1.ListMonitorsResponse.monitors:type_name -> monitor.v1.Monitor
+	1,  // 1: monitor.v1.MonitorService.CreateMonitor:input_type -> monitor.v1.CreateMonitorRequest
+	3,  // 2: monitor.v1.MonitorService.ListMonitors:input_type -> monitor.v1.ListMonitorsRequest
+	5,  // 3: monitor.v1.MonitorService.DeleteMonitor:input_type -> monitor.v1.DeleteMonitorRequest
+	7,  // 4: monitor.v1.AuthService.Login:input_type -> monitor.v1.LoginRequest
+	9,  // 5: monitor.v1.AuthService.CreateUser:input_type -> monitor.v1.CreateUserRequest
+	11, // 6: monitor.v1.AuthService.GetUser:input_type -> monitor.v1.GetUserRequest
+	13, // 7: monitor.v1.AuthService.DeleteUser:input_type -> monitor.v1.DeleteUserRequest
+	2,  // 8: monitor.v1.MonitorService.CreateMonitor:output_type -> monitor.v1.CreateMonitorResponse
+	4,  // 9: monitor.v1.MonitorService.ListMonitors:output_type -> monitor.v1.ListMonitorsResponse
+	6,  // 10: monitor.v1.MonitorService.DeleteMonitor:output_type -> monitor.v1.DeleteMonitorResponse
+	8,  // 11: monitor.v1.AuthService.Login:output_type -> monitor.v1.LoginResponse
+	10, // 12: monitor.v1.AuthService.CreateUser:output_type -> monitor.v1.CreateUserResponse
+	12, // 13: monitor.v1.AuthService.GetUser:output_type -> monitor.v1.GetUserResponse
+	14, // 14: monitor.v1.AuthService.DeleteUser:output_type -> monitor.v1.DeleteUserResponse
+	8,  // [8:15] is the sub-list for method output_type
+	1,  // [1:8] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_monitor_v1_monitor_proto_init() }
@@ -452,9 +840,9 @@ func file_api_proto_monitor_v1_monitor_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_monitor_v1_monitor_proto_rawDesc), len(file_api_proto_monitor_v1_monitor_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   15,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_api_proto_monitor_v1_monitor_proto_goTypes,
 		DependencyIndexes: file_api_proto_monitor_v1_monitor_proto_depIdxs,

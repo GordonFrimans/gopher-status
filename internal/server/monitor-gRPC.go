@@ -13,7 +13,7 @@ import (
 	desc "main/pkg/api/monitor/v1"
 )
 
-type GRPCServer struct {
+type MonitorGRPCServer struct {
 	// Обязательно встраиваем, чтобы сервер не падал, если вызовут нереализованный метод
 	desc.UnimplementedMonitorServiceServer
 
@@ -22,14 +22,14 @@ type GRPCServer struct {
 	workers *worker.WorkerPool
 }
 
-func NewGRPCServer(store *storage.InMemoryStorageMonitors, workers *worker.WorkerPool) *GRPCServer {
-	return &GRPCServer{
+func NewMonitorGRPCServer(store *storage.InMemoryStorageMonitors, workers *worker.WorkerPool) *MonitorGRPCServer {
+	return &MonitorGRPCServer{
 		storage: store,
 		workers: workers,
 	}
 }
 
-func (s *GRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateMonitorRequest) (*desc.CreateMonitorResponse, error) {
+func (s *MonitorGRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateMonitorRequest) (*desc.CreateMonitorResponse, error) {
 	log.Println("CreateMonitor trigg")
 	newMonitor := storage.Monitor{
 		ID:        s.storage.GetLastID(),
@@ -48,8 +48,8 @@ func (s *GRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateMonitorR
 	}, nil
 }
 
-func (s *GRPCServer) ListMonitors(ctx context.Context, req *desc.ListMonitorsRequest) (*desc.ListMonitorsResponse, error) {
-	log.Println("ListMonitors trigg")
+func (s *MonitorGRPCServer) ListMonitors(ctx context.Context, req *desc.ListMonitorsRequest) (*desc.ListMonitorsResponse, error) {
+	// log.Println("ListMonitors trigg")
 	monitors, err := s.storage.List()
 	if err != nil {
 		return nil, status.Error(codes.Internal, fmt.Sprintf("ERR=%v", err))
@@ -73,7 +73,7 @@ func (s *GRPCServer) ListMonitors(ctx context.Context, req *desc.ListMonitorsReq
 	}, nil
 }
 
-func (s *GRPCServer) DeleteMonitor(ctx context.Context, req *desc.DeleteMonitorRequest) (*desc.DeleteMonitorResponse, error) {
+func (s *MonitorGRPCServer) DeleteMonitor(ctx context.Context, req *desc.DeleteMonitorRequest) (*desc.DeleteMonitorResponse, error) {
 	log.Println("DeleteMonitor trigg")
 	err := s.storage.Delete(req.Id)
 	if err != nil {

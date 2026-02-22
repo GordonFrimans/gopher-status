@@ -1,14 +1,15 @@
 syntax = "proto3";
 
-package monitor.v1; // Хороший тон добавить пакет
+package monitor.v1;
 
 option go_package = "./pkg/api/monitor/v1;monitor";
 
 import "google/api/annotations.proto";
 
+// ==================================================
+// =====       Monitor Service                  =====
+// ==================================================
 service MonitorService {
-
-    // Добавить монитор
     rpc CreateMonitor(CreateMonitorRequest) returns (CreateMonitorResponse) {
         option (google.api.http) = {
             post: "/v1/monitors"
@@ -16,20 +17,20 @@ service MonitorService {
         };
     }
 
-    // Получить список (лучше назвать List, это стандарт)
     rpc ListMonitors(ListMonitorsRequest) returns (ListMonitorsResponse) {
         option (google.api.http) = {
             get: "/v1/monitors"
         };
     }
 
-    // Удалить
     rpc DeleteMonitor(DeleteMonitorRequest) returns (DeleteMonitorResponse) {
         option (google.api.http) = {
             delete: "/v1/monitors/{id}"
         };
     }
 }
+
+
 
 //==================================================
 //=====       Data Structures                  =====
@@ -70,5 +71,78 @@ message DeleteMonitorRequest {
     int64 id = 1;
 }
 
+
 message DeleteMonitorResponse {
+}
+
+
+// ==================================================
+// =====       Auth Service                     =====
+// ==================================================
+service AuthService {
+    // Авторизация (получение токена)
+    rpc Login(LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/v1/auth/login"
+            body: "*"
+        };
+    }
+
+    // Создание пользователя (рега)
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/auth/users"
+            body: "*"
+        };
+    }
+
+    // Получение информации о пользователе
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+        option (google.api.http) = {
+            get: "/v1/auth/users/{login}"
+        };
+    }
+
+    // Удаление пользователя
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+        option (google.api.http) = {
+            delete: "/v1/auth/users/{login}"
+        };
+    }
+}
+
+
+message LoginRequest {
+    string login = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string jwt = 1;
+}
+
+message CreateUserRequest {
+    string login = 1;
+    string password = 2;
+}
+
+message CreateUserResponse {
+    // Пустой ответ или можно вернуть логин/id
+}
+
+message GetUserRequest {
+    string login = 1;
+}
+
+message GetUserResponse {
+    string login = 1;
+    // Пароль/хэш сюда не кладем, это небезопасно!
+    // Можно добавить роль, если она появится в будущем
+}
+
+message DeleteUserRequest {
+    string login = 1;
+}
+
+message DeleteUserResponse {
 }
