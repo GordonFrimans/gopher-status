@@ -60,6 +60,7 @@ func (s *Scheduler) scheduleTasks() {
 		// 1. Если LastCheck пустой (монитор только создан) -> Проверяем сразу!
 		if m.LastCheck == "" {
 			log.Println("DEFAULT lastChek")
+			s.storage.UpdateLastCheck(m.ID, time.Now().Format("2006-01-02 15:04:05"))
 			s.sendTask(&m)
 			continue
 		}
@@ -87,7 +88,7 @@ func (s *Scheduler) scheduleTasks() {
 		// --- КОНЕЦ ЛОГИКИ ---
 
 		// Если дошли сюда -> ПОРА ПРОВЕРЯТЬ!
-
+		s.storage.UpdateLastCheck(m.ID, time.Now().Format("2006-01-02 15:04:05"))
 		s.sendTask(&m)
 	}
 }

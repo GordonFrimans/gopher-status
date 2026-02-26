@@ -32,9 +32,9 @@ func NewMonitorGRPCServer(store *storage.InMemoryStorageMonitors, workers *worke
 func (s *MonitorGRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateMonitorRequest) (*desc.CreateMonitorResponse, error) {
 	log.Println("CreateMonitor trigg")
 	// Достаем логин из контекста
-	reqLoginUser := ctx.Value(UserLoginKey).(string)
-	if len(reqLoginUser) == 0 {
-		return nil, status.Error(codes.Internal, "login not found")
+	reqLoginUser, ok := ctx.Value(UserLoginKey).(string)
+	if !ok {
+		return nil, status.Error(codes.Unauthenticated, "login not found")
 	}
 	newMonitor := storage.Monitor{
 		ID:         s.storage.GetLastID(),
@@ -57,9 +57,9 @@ func (s *MonitorGRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateM
 func (s *MonitorGRPCServer) ListMonitors(ctx context.Context, req *desc.ListMonitorsRequest) (*desc.ListMonitorsResponse, error) {
 	// log.Println("ListMonitors trigg")
 	// Получаем логин
-	reqLoginUser := ctx.Value(UserLoginKey).(string)
-	if len(reqLoginUser) == 0 {
-		return nil, status.Error(codes.Internal, "login not found")
+	reqLoginUser, ok := ctx.Value(UserLoginKey).(string)
+	if !ok {
+		return nil, status.Error(codes.Unauthenticated, "login not found")
 	}
 	// Получаем список мониторингов опред пользователя по логину
 	monitors, err := s.storage.List(reqLoginUser)
@@ -88,9 +88,9 @@ func (s *MonitorGRPCServer) ListMonitors(ctx context.Context, req *desc.ListMoni
 func (s *MonitorGRPCServer) DeleteMonitor(ctx context.Context, req *desc.DeleteMonitorRequest) (*desc.DeleteMonitorResponse, error) {
 	log.Println("DeleteMonitor trigg")
 	// Получаем логин!
-	reqLoginUser := ctx.Value(UserLoginKey).(string)
-	if len(reqLoginUser) == 0 {
-		return nil, status.Error(codes.Internal, "login not found")
+	reqLoginUser, ok := ctx.Value(UserLoginKey).(string)
+	if !ok {
+		return nil, status.Error(codes.Unauthenticated, "login not found")
 	}
 	err := s.storage.Delete(req.Id, reqLoginUser)
 	if err != nil {

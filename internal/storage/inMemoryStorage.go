@@ -79,15 +79,19 @@ func (m Monitor) ValidateMonitor() error {
 }
 
 func (s *InMemoryStorageMonitors) GetLastID() int64 {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	return s.nextID
 }
 
 func (s *InMemoryStorageMonitors) AddCountLastID() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.nextID++
 }
 
 type InMemoryStorageMonitors struct {
-	mu       sync.Mutex
+	mu       sync.RWMutex
 	Monitors map[int64]*Monitor // Храним УКАЗАТЕЛИ!
 	nextID   int64
 }
@@ -115,8 +119,8 @@ func (s *InMemoryStorageMonitors) Create(monitor Monitor) (int64, error) {
 
 // GetByID (Получение одного)
 func (s *InMemoryStorageMonitors) GetByID(id int64) (Monitor, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
 	monitor, ok := s.Monitors[id]
 	if !ok {
@@ -129,8 +133,8 @@ func (s *InMemoryStorageMonitors) GetByID(id int64) (Monitor, error) {
 
 // List (Получение всех)
 func (s *InMemoryStorageMonitors) List(login string) ([]Monitor, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
 	var list []Monitor
 	if login == "adminadmin1332adminadmin" {
@@ -147,7 +151,7 @@ func (s *InMemoryStorageMonitors) List(login string) ([]Monitor, error) {
 	return list, nil
 }
 
-// UpdateStatusByID (Обновление статуса) - вот тут стало проще!
+// UpdateStatusByID (Обновление статуса)
 func (s *InMemoryStorageMonitors) UpdateStatusByID(id int64, newStatus string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
