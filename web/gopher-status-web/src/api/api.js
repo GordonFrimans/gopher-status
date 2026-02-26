@@ -1,43 +1,86 @@
 // src/api/api.js
 
-//gRPC gateway addr
+// URL теперь относительные, так как работает прокси из vite.config.js
+const MONITOR_URL = "/v1/monitors";
+const AUTH_URL = "/v1/auth";
 
-const API_URL = "v1/monitors"; // Адрес твоего gRPC Gateway
-
-//ATTENTION Работает на костыле ... Но работает !
-//GET на получение (ничего не принимает)
-
-
-export const ListMonitors = async () => {
-    console.log("GET MONITORS")
-    const response = await fetch(`${API_URL}`);
-    if (!response.ok) throw new Error("Failed to fetch");
-    //УБРАТЬ WARNING
-    return response.json();
+// Хелпер для получения заголовков с токеном
+const getHeaders = () => {
+    const token = localStorage.getItem('accessToken');
+    return {
+        "Content-Type": "application/json",
+        // Если токен есть, добавляем заголовок Authorization
+        ...(token ? { "Authorization": `Bearer ${token}` } : {})
+    };
 };
 
+// ==========================================
+//               АВТОРИЗАЦИЯ
+// ==========================================
 
-//POST на создание (json принимает)
-export const CreateMonitor = async (data) => {
-    const response = await fetch(`${API_URL}`, {
+export const LoginUser = async (login, password) => {
+    const response = await fetch(`${AUTH_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ login, password }),
     });
-    if (!response.ok) throw new Error("Failed to create");
-    return response.json();
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to login");
+
+    return data; // Возвращаем токен
 };
 
-
-
-//DELETE на удаление по ID (принимает ток id в самом url )
-export const DeleteMonitor = async (data) => {
-    const response = await fetch(`${API_URL}/${data}`, {
-        method: "DELETE",
+export const RegisterUser = async (login, password) => {
+    const response = await fetch(`${AUTH_URL}/users`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ login, password }),
     });
-    if (!response.ok) throw new Error("Failed to delete");
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to register");
+
+    return data;
+};
+
+// ==========================================
+//               МОНИТОРЫ
+// ==========================================
+
+export const ListMonitors = async () => {
+    const response = await fetch(MONITOR_URL, {
+        method: "GET",
+        headers: getHeaders(),
+    });
+
+    if (response.status === 401 || response.status === 403) throw new Error("Unauthorized");
+    if (!response.ok) throw new Error("Failed to fetch monitors");
+
     return response.json();
 };
 
+export const CreateMonitor = async (data) => {
+    const response = await fetch(MONITOR_URL, {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify(data),
+    });
+
+    if (response.status === 401 || response.status === 403) throw new Error("Unauthorized");
+    if (!response.ok) throw new Error("Failed to create monitor");
+
+    return response.json();
+};
+
+export const DeleteMonitor = async (id) => {
+    const response = await fetch(`${MONITOR_URL}/${id}`, {
+        method: "DELETE",
+        headers: getHeaders(),
+    });
+
+    if (response.status === 401 || response.status === 403) throw new Error("Unauthorized");
+    if (!response.ok) throw new Error("Failed to delete monitor");
+
+    return response.json();
+};

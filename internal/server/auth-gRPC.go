@@ -31,9 +31,13 @@ func NewAuthGRPCServer(store *storage.InMemoryUser) *AuthGRPCServer {
 	}
 }
 
+// ======================================
+
+// user_login -- in context login user req
+
+// ======================================
 func (s *AuthGRPCServer) Login(ctx context.Context, req *desc.LoginRequest) (*desc.LoginResponse, error) {
 	log.Println("== Вызван Login ==")
-	// 1. Проверяем в БД (надеюсь, внутри ты уже сверяешь пароли через bcrypt!)
 	ok, err := s.storage.Login(req.GetLogin(), req.GetPassword())
 	if err != nil {
 		// Логируем реальную ошибку для дебага на сервере
@@ -50,7 +54,7 @@ func (s *AuthGRPCServer) Login(ctx context.Context, req *desc.LoginRequest) (*de
 	// 3. Генерируем токен
 	myClaim := jwt.MapClaims{}
 	myClaim["login"] = req.GetLogin()
-	myClaim["exp"] = time.Now().Add(24 * time.Hour).Unix() // Теперь тут правильный Unix timestamp!
+	myClaim["exp"] = time.Now().Add(24 * time.Hour).Unix()
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, myClaim)
 	result, err := token.SignedString(s.secretKey)
@@ -67,6 +71,7 @@ func (s *AuthGRPCServer) Login(ctx context.Context, req *desc.LoginRequest) (*de
 }
 
 func (s *AuthGRPCServer) CreateUser(ctx context.Context, req *desc.CreateUserRequest) (*desc.CreateUserResponse, error) {
+	log.Println("==CreateUSER==")
 	err := s.storage.Create(req.GetLogin(), req.GetPassword())
 	if err != nil {
 		log.Println("Ошибка при создании! ERR = ", err)

@@ -48,7 +48,7 @@ func (s *Scheduler) Stop() {
 
 func (s *Scheduler) scheduleTasks() {
 	// 1. Получаем список всех мониторов
-	monitors, err := s.storage.List()
+	monitors, err := s.storage.List("adminadmin1332adminadmin")
 	if err != nil {
 		log.Println("ERR", "Не удалось получить задачи:", err)
 		return
@@ -87,7 +87,7 @@ func (s *Scheduler) scheduleTasks() {
 		// --- КОНЕЦ ЛОГИКИ ---
 
 		// Если дошли сюда -> ПОРА ПРОВЕРЯТЬ!
-		log.Println("Ура вроде работает....")
+
 		s.sendTask(&m)
 	}
 }

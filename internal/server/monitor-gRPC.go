@@ -31,13 +31,19 @@ func NewMonitorGRPCServer(store *storage.InMemoryStorageMonitors, workers *worke
 
 func (s *MonitorGRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateMonitorRequest) (*desc.CreateMonitorResponse, error) {
 	log.Println("CreateMonitor trigg")
+	// Достаем логин из контекста
+	reqLoginUser := ctx.Value(UserLoginKey).(string)
+	if len(reqLoginUser) == 0 {
+		return nil, status.Error(codes.Internal, "login not found")
+	}
 	newMonitor := storage.Monitor{
-		ID:        s.storage.GetLastID(),
-		URL:       req.GetUrl(),
-		Name:      req.GetName(),
-		Interval:  req.GetInterval(),
-		Status:    "PENDING",
-		LastCheck: "", // Дефолт значения времени при инициализации!
+		ID:         s.storage.GetLastID(),
+		URL:        req.GetUrl(),
+		Name:       req.GetName(),
+		Interval:   req.GetInterval(),
+		Status:     "PENDING",
+		LastCheck:  "", // Дефолт значения времени при инициализации!
+		OwnerLogin: reqLoginUser,
 	}
 	newID, err := s.storage.Create(newMonitor)
 	if err != nil {
@@ -50,7 +56,13 @@ func (s *MonitorGRPCServer) CreateMonitor(ctx context.Context, req *desc.CreateM
 
 func (s *MonitorGRPCServer) ListMonitors(ctx context.Context, req *desc.ListMonitorsRequest) (*desc.ListMonitorsResponse, error) {
 	// log.Println("ListMonitors trigg")
-	monitors, err := s.storage.List()
+	// Получаем логин
+	reqLoginUser := ctx.Value(UserLoginKey).(string)
+	if len(reqLoginUser) == 0 {
+		return nil, status.Error(codes.Internal, "login not found")
+	}
+	// Получаем список мониторингов опред пользователя по логину
+	monitors, err := s.storage.List(reqLoginUser)
 	if err != nil {
 		return nil, status.Error(codes.Internal, fmt.Sprintf("ERR=%v", err))
 	}
@@ -75,7 +87,12 @@ func (s *MonitorGRPCServer) ListMonitors(ctx context.Context, req *desc.ListMoni
 
 func (s *MonitorGRPCServer) DeleteMonitor(ctx context.Context, req *desc.DeleteMonitorRequest) (*desc.DeleteMonitorResponse, error) {
 	log.Println("DeleteMonitor trigg")
-	err := s.storage.Delete(req.Id)
+	// Получаем логин!
+	reqLoginUser := ctx.Value(UserLoginKey).(string)
+	if len(reqLoginUser) == 0 {
+		return nil, status.Error(codes.Internal, "login not found")
+	}
+	err := s.storage.Delete(req.Id, reqLoginUser)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, fmt.Sprintf("ERR=%v", err))
 	}

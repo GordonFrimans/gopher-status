@@ -25,8 +25,9 @@ func AuthInterceptor(secretKey []byte) grpc.UnaryServerInterceptor {
 	) (interface{}, error) {
 		// 1. Пропускаем методы, для которых не нужна авторизация (логин и рега)
 		// ВАЖНО: Замени пути на свои реальные названия из .proto файла!
-		if info.FullMethod == "/api.monitor.v1.AuthService/Login" ||
-			info.FullMethod == "/api.monitor.v1.AuthService/CreateUser" {
+		// 1. Пропускаем методы, для которых не нужна авторизация (логин и рега)
+		if info.FullMethod == "/monitor.v1.AuthService/Login" ||
+			info.FullMethod == "/monitor.v1.AuthService/CreateUser" {
 			return handler(ctx, req)
 		}
 

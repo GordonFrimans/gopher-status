@@ -9,12 +9,13 @@ import (
 )
 
 type Monitor struct {
-	ID        int64  // Уник идентификатор
-	URL       string // URL отслеживаемого сайта/сервиса
-	Name      string // Пользовательское имя
-	Interval  int32  // Интервал между регулярными проверками
-	Status    string // Текущий статус сайта/сервиса (UP, DOWN, PENDING)
-	LastCheck string // Время последней проверки (string для простоты JSON)
+	ID         int64  // Уник идентификатор
+	URL        string // URL отслеживаемого сайта/сервиса
+	Name       string // Пользовательское имя
+	Interval   int32  // Интервал между регулярными проверками
+	Status     string // Текущий статус сайта/сервиса (UP, DOWN, PENDING)
+	LastCheck  string // Время последней проверки (string для простоты JSON)
+	OwnerLogin string // Логин пользователя кому принадлежит данный монитор
 }
 
 func (m Monitor) ValidateMonitor() error {
@@ -127,13 +128,21 @@ func (s *InMemoryStorageMonitors) GetByID(id int64) (Monitor, error) {
 }
 
 // List (Получение всех)
-func (s *InMemoryStorageMonitors) List() ([]Monitor, error) {
+func (s *InMemoryStorageMonitors) List(login string) ([]Monitor, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	var list []Monitor
+	if login == "adminadmin1332adminadmin" {
+		for _, monitor := range s.Monitors {
+			list = append(list, *monitor) // Копируем значение (*monitor) в слайс
+		}
+		return list, nil
+	}
 	for _, monitor := range s.Monitors {
-		list = append(list, *monitor) // Копируем значение (*monitor) в слайс
+		if monitor.OwnerLogin == login {
+			list = append(list, *monitor) // Копируем значение (*monitor) в слайс
+		}
 	}
 	return list, nil
 }
@@ -170,12 +179,15 @@ func (s *InMemoryStorageMonitors) UpdateLastCheck(id int64, newLastCheck string)
 }
 
 // Delete (Удаление)
-func (s *InMemoryStorageMonitors) Delete(id int64) error {
+func (s *InMemoryStorageMonitors) Delete(id int64, login string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if _, ok := s.Monitors[id]; !ok {
 		return errors.New("monitor not found")
+	}
+	if s.Monitors[id].OwnerLogin != login {
+		return errors.New("OwnerLogin != req login")
 	}
 
 	delete(s.Monitors, id)
